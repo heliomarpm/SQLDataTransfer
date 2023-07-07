@@ -19,9 +19,6 @@ jobs:
 
     env:
       Solution_Name: SQLDataTransfer.sln
-      #Test_Project_Path: your-test-project-path                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      #Wap_Project_Directory: your-wap-project-directory-name    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      #Wap_Project_Path: your-wap-project-path                   # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
 
     steps:
     - name: Checkout
@@ -39,20 +36,17 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
-    # Execute all unit tests in the solution
-    #- name: Execute unit tests
-    #  run: dotnet test
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
-    # - name: Restore the application
-    #   run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-    #   env:
-    #     Configuration: ${{ matrix.configuration }}
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
     
     - name: Build project
       run: msbuild.exe $env:Solution_Name /t:Clean /t:Build /p:Configuration=$env:Configuration /p:OutDir=../publish/win-x64    
-    # - name: Publish application
-    #   run: dotnet publish -c release -r win-x64 --output ./publish/win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true
+      env:
+        Configuration: ${{ matrix.configuration }}
 
     - name: see directory
       run: dir "publish/win-x64"
@@ -64,30 +58,6 @@ jobs:
     - name: see directory
       run: dir 
 
-    # - name: Create Release
-    #   id: create_release
-    #   uses: actions/create-release@v1
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     tag_name: ${{ github.ref }}
-    #     release_name: Release ${{ github.ref }}
-    #     # body: |
-    #     #   Changes in this release:
-    #     #   - Add feature X
-    #     #   - Fix issue Y
-    #     body: |
-    #       #${{ github.ref }}
-    #       ![](https://img.shields.io/github/downloads/heliomarpm/resize-comics/${{ github.ref }}/total)
-    #     draft: true
-    #     prerelease: true
-
-    # # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: ResizeIt
-    #     path: ResizeIt.zip
 
     # - name: Set Variables
     #   id: vars
@@ -103,7 +73,7 @@ jobs:
       with:
         body: |          
           ###### ${{ steps.variables.outputs.release_date }}
-          ![](https://img.shields.io/github/downloads/heliomarpm/resize-comics/${{ github.ref_name }}/total)
+          ![](https://img.shields.io/github/downloads/heliomarpm/SQLDataTransfer/${{ github.ref_name }}/total)
         draft: true
         prerelease: true
         files: |
