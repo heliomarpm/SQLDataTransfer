@@ -36,8 +36,8 @@ jobs:
         dotnet-version: 7.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    # - name: Setup MSBuild.exe
-    #   uses: microsoft/setup-msbuild@v1.0.2
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1.0.2
 
     # Execute all unit tests in the solution
     #- name: Execute unit tests
@@ -50,7 +50,7 @@ jobs:
     #     Configuration: ${{ matrix.configuration }}
     
     - name: Build project
-      run: msbuild.exe SQLDataTransfer.sln /t:Clean /t:Build /property:Configuration=Release /p:OutDir=../publish/win-x64    
+      run: msbuild.exe $env:Solution_Name /t:Clean /t:Build /p:Configuration=$env:Configuration /p:OutDir=../publish/win-x64    
     # - name: Publish application
     #   run: dotnet publish -c release -r win-x64 --output ./publish/win-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true
 
