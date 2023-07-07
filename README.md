@@ -1,7 +1,7 @@
 <span id="top"></span>
 <h1 align="center">
   <img src="icon.png" width="128" />
-  <br> ResizeIt - Redimensionador de Imagens
+  <br> SQL Data Transfer
 
   <!--
   [![CodeFactor](https://www.codefactor.io/repository/github/heliomarpm/SQLDataTransfer/badge)](https://www.codefactor.io/repository/github/heliomarpm/SQLDataTransfer) 
