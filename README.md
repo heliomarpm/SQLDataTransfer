@@ -43,6 +43,9 @@
   </a>
 </p>
 
+  ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
+  &nbsp;![.Net 4.8](https://img.shields.io/badge/4.8-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
+  
 O SQLDataTransfer é uma ferramenta para Cópia de Dados SQL Server, que foi desenvolvida para auxiliar na geração de arquivos e cópia eficiente de dados entre bases de dados SQL Server.
 Todo o processameno é otimizado utilizando BulkCopy, o que significa que as tabelas de origem e destino precisam ter a mesma estrutura de dados.
 
