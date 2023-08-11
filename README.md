@@ -189,12 +189,12 @@ Se você aprecia isso, considere doar para o desenvolvedor.
 
 ## Licença
 
-O ResizeIt é distribuído sob a licença MIT. Consulte o arquivo `LICENSE` para obter mais informações.
+O SQLDataTransfer é distribuído sob a licença MIT. Consulte o arquivo `LICENSE` para obter mais informações.
 [MIT © Heliomar P. Marques](https://github.com/heliomarpm/SQLDataTransfer/blob/main/LICENSE) <a href="#top">🔝</a>
 
 
 ## Agradecimentos
-Agradeço por utilizar o SQLDataTransfer. Espero que ele seja útil e facilite suas tarefas de cópia de dados. \
+Agradeço por utilizar este software. Espero que ele seja útil e facilite suas tarefas de cópia de dados. \
 Se tiver alguma dúvida ou sugestão, não hesite em perguntar.
 
 [Última Versão](https://github.com/heliomarpm/SQLDataTransfer/releases/latest)
