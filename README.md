@@ -90,7 +90,11 @@ Com essa ferramenta, os usuários poderão copiar dados entre bases de dados SQL
 
 <img src="SQLDataTransfer_GUI.gif" alt="Interface GUI" />
 
+-- ou --
+
 ### Interface CLI
+
+<img src="SQLDataTransfer_CLI.gif" alt="Interface CI" />
 
 * Arquivo de Config
 ```xml
@@ -138,8 +142,6 @@ Com essa ferramenta, os usuários poderão copiar dados entre bases de dados SQL
 
 </configuration>
 ```
-
-<img src="SQLDataTransfer_CLI.gif" alt="Interface CI" />
 
 ## Contribuição 
 
