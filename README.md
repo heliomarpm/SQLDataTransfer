@@ -1,18 +1,15 @@
 <span id="top"></span>
-<h1 align="center">
+<div id="top" style="text-align:center;">
+<h1>
   <img src="icon.png" width="128" />
-  <br> SQL Data Transfer
+  <br>🎲 SQL Data Transfer
 
-  <!--
-  [![CodeFactor](https://www.codefactor.io/repository/github/heliomarpm/SQLDataTransfer/badge)](https://www.codefactor.io/repository/github/heliomarpm/SQLDataTransfer) 
-  ![CodeQL](https://github.com/heliomarpm/SQLDataTransfer/actions/workflows/codeql-analysis.yml/badge.svg) 
-  -->
-  ![Publish](https://github.com/heliomarpm/SQLDataTransfer/actions/workflows/publish.yml/badge.svg) 
+  [![CodeFactor](https://www.codefactor.io/repository/github/heliomarpm/sqldatatransfer/badge)](https://www.codefactor.io/repository/github/heliomarpm/sqldatatransfer)
+  [![Publish](https://github.com/heliomarpm/SQLDataTransfer/actions/workflows/publish.yml/badge.svg)](https://github.com/heliomarpm/SQLDataTransfer)
   <a href="https://navto.me/heliomarpm" target="_blank"><img src="https://navto.me/assets/navigatetome-brand.png" width="32"/></a>
-
 </h1>
 
-<p align="center">
+<p>
   <!-- PayPal -->
   <a href="https://bit.ly/paypal-udeler" target="_blank" rel="noopener noreferrer">
     <img alt="paypal url" src="https://img.shields.io/badge/donate%20on-paypal-1C1E26?style=for-the-badge&labelColor=1C1E26&color=0475fe"/>
@@ -42,6 +39,7 @@
     <img alt="license url" src="https://img.shields.io/badge/license%20-MIT-1C1E26?style=for-the-badge&labelColor=1C1E26&color=61ffca"/>
   </a>
 </p>
+</div>
 
   ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
   &nbsp;![.Net 4.8](https://img.shields.io/badge/4.8-5C2D91?style=for-the-badge&logo=.net&logoColor=white)
