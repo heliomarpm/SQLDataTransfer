@@ -1,5 +1,4 @@
-<span id="top"></span>
-<div id="top" style="text-align:center;">
+<div id="top" align="center" style="text-align:center;">
 <h1>
   <img src="icon.png" width="128" />
   <br>🎲 SQL Data Transfer
