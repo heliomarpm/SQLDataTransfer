@@ -175,7 +175,7 @@ namespace SQLDataTransfer.CLI
                 }
                 else
                     _logger.WriteLog($"\t {rcount.ToString("n0")} ForeingKey's desativadas! {tempo.Elapsed}");
-                
+
                 _logger.WriteLine();
             }
 

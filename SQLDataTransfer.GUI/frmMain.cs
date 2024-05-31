@@ -305,7 +305,7 @@ namespace SQLDataTransfer.GUI
         {
             var tempo = new System.Diagnostics.Stopwatch();
             bool desativarFKs = chkConstraints.Checked;
-            
+
             try
             {
                 int rcount = 0;
