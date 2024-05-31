@@ -23,7 +23,6 @@ namespace SQLDataTransfer.CLI
 
                 if (PrepareTransfers(args, transferSection))
                     ExecuteTransfers(transferSection);
-
             }
             catch (Exception ex)
             {
