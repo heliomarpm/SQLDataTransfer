@@ -1,4 +1,4 @@
-﻿using SQLDataTransfer.CLI.Configuration;
+using SQLDataTransfer.CLI.Configuration;
 using SQLDataTransfer.Core;
 using System;
 using System.Data.SqlClient;
@@ -32,7 +32,6 @@ namespace SQLDataTransfer.CLI
                     {
                         if (!ConfirmarTransferencia(transferSection))
                             return;
-
                     }
                 }
                 else if (args.Length == 0)
@@ -95,7 +94,6 @@ namespace SQLDataTransfer.CLI
                             //_transfer.Reseed();
                             //EscreverMemo("Reseed Identitys: " + tempo.Elapsed.ToString());
                             //EscreverMemo(new String('-', 80) + Environment.NewLine);
-
                         }
                         else
                         {
@@ -146,7 +144,6 @@ namespace SQLDataTransfer.CLI
                     WriteLineRG("\t Bulk Fire Triggers: ", item.FireTriggers);
                     Console.WriteLine();
                     Console.WriteLine("\t Tables Count: {0}", item.Tables.Count);
-
                 }
 
                 Console.WriteLine(new String('-', 80) + Environment.NewLine);
@@ -257,7 +254,6 @@ namespace SQLDataTransfer.CLI
                         //    tempo.Stop();
                         //}
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -277,7 +273,6 @@ namespace SQLDataTransfer.CLI
                 tempo.Stop();
                 _logger.WriteLine();
             }
-
         }
 
         private static void EscreverLogInfo(TransfersElement item)

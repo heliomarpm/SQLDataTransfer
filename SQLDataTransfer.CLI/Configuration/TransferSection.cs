@@ -1,4 +1,4 @@
-﻿using System.Configuration;
+using System.Configuration;
 
 namespace SQLDataTransfer.CLI.Configuration
 {
@@ -35,6 +35,5 @@ namespace SQLDataTransfer.CLI.Configuration
             CreateSection();
             return ConfigurationManager.GetSection("transferSection") as TransferSection;
         }
-
     }
 }
