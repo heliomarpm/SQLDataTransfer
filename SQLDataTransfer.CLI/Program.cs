@@ -15,97 +15,15 @@ namespace SQLDataTransfer.CLI
 
         static void Main(string[] args)
         {
+            _logger = new Logger();
+
             try
             {
                 var transferSection = TransferSection.GetSection();
-                //Se grupo de transferencia foi passado como parametro, executa apenas determinado
-                if (args.Length > 0)
-                {
-                    foreach (TransfersElement item in transferSection.Transfers)
-                    {
-                        item.Disabled = !args.Contains(item.Name);
-                    }
 
-                    var confirmarTransferencia = (args.Length > 1 && !(args[1].ToUpper() == "S" || args[1].ToUpper() == "Y"));
+                if (PrepareTransfers(args, transferSection))
+                    ExecuteTransfers(transferSection);
 
-                    if (args.Length == 1 || confirmarTransferencia)
-                    {
-                        if (!ConfirmarTransferencia(transferSection))
-                            return;
-                    }
-                }
-                else if (args.Length == 0)
-                {
-                    //Se não foi passado nenhuma configuração como parametro então deve esperar ok do usuário
-                    if (!ConfirmarTransferencia(transferSection))
-                        return;
-                }
-
-                var tempoProcesso = new Stopwatch();
-                var tempoEtapa = new Stopwatch();
-
-                foreach (TransfersElement item in transferSection.Transfers)
-                {
-                    //local de armazenamento do log de execução
-                    _logger = new Logger();
-                    if (!item.Disabled)
-                    {
-                        tempoProcesso.Restart();
-                        EscreverLogInfo(item);
-                        _transfer = new DataTransfer(item.ConnectionSource, item.ConnectionTarget);
-                        if (_transfer.Connected)
-                        {
-                            _logger.WriteLine('=');
-                            _logger.WriteLog(string.Format("{0} BEGIN Transfer: {1} => {2}", DateTime.Now.ToString("dd.MM.yyyy"), _transfer.DatabaseSource, _transfer.DatabaseTarget), ConsoleColor.Blue, false);
-                            _logger.WriteLine();
-
-                            //setando parametros para execucao do bulk
-                            var bulkConfig = new DataTransfer.BulkConfig
-                            {
-                                Options = SqlBulkCopyOptions.KeepIdentity
-                            };
-
-                            if (item.TableLock) bulkConfig.Options |= SqlBulkCopyOptions.TableLock;
-                            if (item.CheckConstraints) bulkConfig.Options |= SqlBulkCopyOptions.CheckConstraints;
-                            if (item.FireTriggers) bulkConfig.Options |= SqlBulkCopyOptions.FireTriggers;
-
-                            bulkConfig.CopyTimeout = item.BulkCopyTimeout;
-                            bulkConfig.BatchSize = item.BulkBatchSize;
-
-                            IniciarTransferencia(item.Tables, bulkConfig);
-
-                            /*
-                            var tasks = new Task[item.Tables.Count];
-                            for (int i = 0; i < tasks.Count(); i++)
-                            {
-                                tasks[i] = new Task((object element) =>
-                                {
-                                    IniciarTransferencia((TablesConfigurationElement)element);
-                                },
-                                item.Tables[i]);
-                            }
-                            Parallel.ForEach(tasks, (t) =>
-                            {
-                                t.Start();
-                            });
-                            Task.WaitAll(tasks);
-                            */
-
-                            //_transfer.Reseed();
-                            //EscreverMemo("Reseed Identitys: " + tempo.Elapsed.ToString());
-                            //EscreverMemo(new String('-', 80) + Environment.NewLine);
-                        }
-                        else
-                        {
-                            _logger.WriteError("FALHA NA CONEXÃO, VERIFIQUE AS CONFIGURAÇÕES");
-                        }
-                        tempoProcesso.Stop();
-
-                        _logger.WriteLine();
-                        _logger.WriteLog($"{DateTime.Now:dd.MM.yyyy} END Transfer. {tempoProcesso.Elapsed}", ConsoleColor.Blue, false);
-                        _logger.WriteLine('=');
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -118,11 +36,36 @@ namespace SQLDataTransfer.CLI
                     _transfer.Disconnect();
                     _transfer = null;
                 }
+
+                _logger = null;
             }
             Console.Read();
         }
 
-        private static Boolean ConfirmarTransferencia(TransferSection envConfig)
+        private static bool PrepareTransfers(string[] args, TransferSection transferSection)
+        {
+            //Se não foi passado nenhum parametro de confirmação então deve esperar ok do usuário
+            bool confirmTransfer = args.Length <= 1;
+
+            //Se grupo de transferencia foi passado como parametro, executa apenas determinado
+            if (args.Length > 0)
+            {
+                foreach (TransfersElement transferElement in transferSection.Transfers)
+                {
+                    transferElement.Disabled = !args.Contains(transferElement.Name);
+                }
+
+                confirmTransfer = confirmTransfer || (args.Length > 1 && !(args[1].ToUpper() == "S" || args[1].ToUpper() == "Y"));
+            }
+
+            if (confirmTransfer)
+            {
+                return ConfirmTransfer(transferSection);
+            }
+            return true;
+        }
+
+        private static bool ConfirmTransfer(TransferSection envConfig)
         {
             Console.WriteLine("<<< TRANSFERÊNCIAS CONFIGURADAS >>>");
             foreach (TransfersElement item in envConfig.Transfers)
@@ -154,7 +97,66 @@ namespace SQLDataTransfer.CLI
             return Console.ReadKey().Key == ConsoleKey.Enter;
         }
 
-        private static void IniciarTransferencia(BaseConfigurationCollection<TablesElement> tables, DataTransfer.BulkConfig bulkConfig)
+        private static void ExecuteTransfers(TransferSection transferSection)
+        {
+            var processTimeWatch = new Stopwatch();
+            //var stageTimeWatch = new Stopwatch();
+
+            foreach (TransfersElement item in transferSection.Transfers)
+            {
+                //local de armazenamento do log de execução
+                _logger = new Logger();
+                if (!item.Disabled)
+                {
+                    processTimeWatch.Restart();
+                    WriteLogInfo(item);
+                    _transfer = new DataTransfer(item.ConnectionSource, item.ConnectionTarget);
+                    if (_transfer.Connected)
+                    {
+                        _logger.WriteLine('=');
+                        _logger.WriteLog(string.Format("{0} BEGIN Transfer: {1} => {2}", DateTime.Now.ToString("dd.MM.yyyy"), _transfer.DatabaseSource, _transfer.DatabaseTarget), ConsoleColor.Blue, false);
+                        _logger.WriteLine();
+
+                        //setando parametros para execucao do bulk
+                        var bulkConfig = CreateBulkConfig(item);
+
+                        StartTransfer(item.Tables, bulkConfig);
+
+                        /*
+                        var tasks = new Task[item.Tables.Count];
+                        for (int i = 0; i < tasks.Count(); i++)
+                        {
+                            tasks[i] = new Task((object element) =>
+                            {
+                                StartTransfer((TablesConfigurationElement)element);
+                            },
+                            item.Tables[i]);
+                        }
+                        Parallel.ForEach(tasks, (t) =>
+                        {
+                            t.Start();
+                        });
+                        Task.WaitAll(tasks);
+                        */
+
+                        //_transfer.Reseed();
+                        //EscreverMemo("Reseed Identitys: " + stageTimeWatch.Elapsed.ToString());
+                        //EscreverMemo(new String('-', 80) + Environment.NewLine);
+                    }
+                    else
+                    {
+                        _logger.WriteError("FALHA NA CONEXÃO, VERIFIQUE AS CONFIGURAÇÕES");
+                    }
+                    processTimeWatch.Stop();
+
+                    _logger.WriteLine();
+                    _logger.WriteLog($"{DateTime.Now:dd.MM.yyyy} END Transfer. {processTimeWatch.Elapsed}", ConsoleColor.Blue, false);
+                    _logger.WriteLine('=');
+                }
+            }
+        }
+
+        private static void StartTransfer(BaseConfigurationCollection<TablesElement> tables, DataTransfer.BulkConfig bulkConfig)
         {
             var tempo = new System.Diagnostics.Stopwatch();
             int rcount;
@@ -182,7 +184,7 @@ namespace SQLDataTransfer.CLI
             #region [ TRANSFERENCIA DOS DADOS ]           
             foreach (TablesElement table in tables)
             {
-                string msg = "IniciarTransferencia: ";
+                string msg = "StartTransfer: ";
                 try
                 {
                     if (!string.IsNullOrEmpty(table.ToCsvFile))
@@ -275,7 +277,7 @@ namespace SQLDataTransfer.CLI
             }
         }
 
-        private static void EscreverLogInfo(TransfersElement item)
+        private static void WriteLogInfo(TransfersElement item)
         {
             var sb = new StringBuilder($"\nConfig: {item.Name}");
 
@@ -294,13 +296,30 @@ namespace SQLDataTransfer.CLI
             _logger.WriteLog(sb.ToString(), ConsoleColor.White, false);
         }
 
-        private static void WriteLineRG(string texto, bool textoVerde)
+        private static void WriteLineRG(string value, bool greenValue)
         {
             var fcAtual = Console.ForegroundColor;
-            Console.Write(texto);
-            Console.ForegroundColor = (textoVerde ? ConsoleColor.Green : ConsoleColor.DarkRed);
-            Console.WriteLine(textoVerde);
+            Console.Write(value);
+            Console.ForegroundColor = (greenValue ? ConsoleColor.Green : ConsoleColor.DarkRed);
+            Console.WriteLine(greenValue);
             Console.ForegroundColor = fcAtual;
+        }
+
+        private static DataTransfer.BulkConfig CreateBulkConfig(TransfersElement transferElement)
+        {
+            var bulkConfig = new DataTransfer.BulkConfig
+            {
+                Options = SqlBulkCopyOptions.KeepIdentity
+            };
+
+            if (transferElement.TableLock) bulkConfig.Options |= SqlBulkCopyOptions.TableLock;
+            if (transferElement.CheckConstraints) bulkConfig.Options |= SqlBulkCopyOptions.CheckConstraints;
+            if (transferElement.FireTriggers) bulkConfig.Options |= SqlBulkCopyOptions.FireTriggers;
+
+            bulkConfig.CopyTimeout = transferElement.BulkCopyTimeout;
+            bulkConfig.BatchSize = transferElement.BulkBatchSize;
+
+            return bulkConfig;
         }
     }
 }
