@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace SQLDataTransfer.CLI
@@ -58,6 +58,5 @@ namespace SQLDataTransfer.CLI
                 File.AppendAllText(_fileName, text);
             }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,7 +20,6 @@ namespace SQLDataTransfer.Core
             }
             else
                 return false;
-
         }
 
         #region [ ExecuteDataTable ]
@@ -223,7 +222,6 @@ namespace SQLDataTransfer.Core
 
                 return cmd.ExecuteReader();
             }
-
         }
 
         #endregion
@@ -345,7 +343,6 @@ namespace SQLDataTransfer.Core
 
                 return cmd.ExecuteNonQuery();
             }
-
         }
 
         #endregion
@@ -410,7 +407,6 @@ namespace SQLDataTransfer.Core
 
                 return cmd.ExecuteScalar();
             }
-
         }
         #endregion
     }

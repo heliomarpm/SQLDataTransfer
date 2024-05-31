@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.IO;
 
@@ -78,7 +78,6 @@ namespace SQLDataTransfer.CLI.Configuration
         {
             get { return (bool)this["updateStatistics"]; }
         }
-
     }
 }
 

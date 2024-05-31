@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -243,7 +243,6 @@ namespace SQLDataTransfer.Core
         {
             using (IDataReader dr = ConnectSource.ExecuteReader(string.Format("SELECT * FROM {0} WITH(NOLOCK)", pNomeTabela)))
             {
-
                 try
                 {
                     string result = "";
@@ -393,7 +392,6 @@ namespace SQLDataTransfer.Core
                         }
                     }
                 }
-
             }
             catch (Exception)
             {
@@ -452,6 +450,5 @@ namespace SQLDataTransfer.Core
                 return ret;
             }
         }
-
     }
 }

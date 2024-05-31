@@ -1,4 +1,4 @@
-﻿using SQLDataTransfer.Core;
+using SQLDataTransfer.Core;
 
 using System;
 using System.Collections.Generic;
@@ -355,8 +355,6 @@ namespace SQLDataTransfer.GUI
                             break;
                     }
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -437,7 +435,6 @@ namespace SQLDataTransfer.GUI
                 //    EscreverMemo($"{_transfer.EnableTriggers(pTableName).ToString("n0")} Trigger's ativadas! {tempo.Elapsed}");
                 //    tempo.Stop();
                 //}
-
             }
             catch (Exception ex)
             {
@@ -448,7 +445,6 @@ namespace SQLDataTransfer.GUI
                 EscreverMemo(new String('-', 80) + Environment.NewLine);
             }
         }
-
 
         public string CreateCsvFile(string pSelect)
         {
