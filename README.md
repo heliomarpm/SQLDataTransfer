@@ -170,7 +170,7 @@ Obrigado, a todas as pessoas que já contribuiram com esse projeto
 
 Se você aprecia isso, considere doar para o desenvolvedor.
 
-<p align="center">
+<p>
   <!-- PixMe -->
   <a href="https://www.pixme.bio/heliomarpm" target="_blank" rel="noopener noreferrer">
     <img alt="pixme url" src="https://img.shields.io/badge/donate%20on-pixme-1C1E26?style=for-the-badge&labelColor=1C1E26&color=28f4f4"/>
