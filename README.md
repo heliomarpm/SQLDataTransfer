@@ -122,8 +122,8 @@ Com essa ferramenta, os usuários poderão copiar dados entre bases de dados SQL
 					<add name="dbo.TB_CIDADE"	truncate="true" updateStatistics="true"/>
 				</tables>
 			</add>
-			<add name="HL_HOMOLOG" disabled="true"
-				 connectionSource="Data Source=SERV_PROD;Initial Catalog=DB_CAS;Persist Security Info=True;User ID=sa; Password=sa;"
+			<add name="STAGING" disabled="true"
+				 connectionSource="Data Source=SERV_PROD;Initial Catalog=DB_IDE;Persist Security Info=True;User ID=sa; Password=sa;"
 				 connectionTarget="Data Source=SERV_HML;Initial Catalog=DB_CAS;Persist Security Info=True;User ID=sa; Password=sa;"
 				 bulkCopyTimeout="18000"
 				 bulkBatchSize="20000"
@@ -131,10 +131,10 @@ Com essa ferramenta, os usuários poderão copiar dados entre bases de dados SQL
 				 checkConstraints="false"
 				 fireTriggers="false">
 				<tables>
-					<add name="dbo.TB_OPERACAO"/>
+					<add name="dbo.TB_MOVIMENTACAO"/>
 					<add name="TB_CLIENTE" selectSource="Scripts\TB_CLIENTE.SQL" updateStatistics="true"/>
-					<add name="TB_COTACAO_DIA" updateStatistics="true" truncate="true"/>
-					<add name="TB_GRUPO_ECONOMICO" toCsvFile="Extracao\dbo.TB_GRUPO_ECONOMICO_{DateTime}.csv"/>
+					<add name="TB_PRODUTO" updateStatistics="true" truncate="true"/>
+					<add name="TB_GRUPO" toCsvFile="Extracao\dbo.TB_GRUPO_{DateTime}.csv"/>
 					<add name="SpaceUsed" selectSource="Scripts\SpaceUsed.sql" toCsvFile="Extracao\{Date}_SpaceUsed_{Time}.csv"/>
 				</tables>
 			</add>
